@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -25,11 +26,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Delay attempts by last attempt grade quiz access rule';
-$string['privacy:metadata'] = 'The delay attempts by grade quiz access rule plugin does not store any personal data.';
-$string['youcannotwait'] = 'This quiz closes before you will be allowed to start another attempt.';
-$string['youmustwait'] = 'You must wait before you may re-attempt this quiz. You will be allowed to start another attempt after {$a}.';
-$string['delaybygrade'] = 'Enforced delay after an attempt with grade less than';
-$string['delaybygrade_help'] = 'Users that get less than specified grade in last attempt must wait this time before try a new attempt.';
-$string['delaygradeerror'] = 'This grade is bigger that quiz max grade.';
-$string['for'] = 'for';
+$string['delaybygrade'] = 'Obbliga l\'attesa dopo un tentativo con una valutazione minore di';
+$string['delaybygrade_help'] = 'Gli utenti che hanno ottenuto meno della valutazione indicata nell\'ultimo tentativo dovranno attendere questo tempo prima di avviare un nuovo tentativo.';
+$string['delaygradeerror'] = 'Questo voto è maggiore della valutazione massima del quiz.';
+$string['for'] = 'per';
+$string['pluginname'] = 'Regola di accesso quiz Ritardo per il voto';
+$string['privacy:metadata'] = 'Il plugin \'Regola di accesso quiz Ritardo per il voto\' non memorizza dati personali.';
+$string['youcannotwait'] = 'Il quiz chiude prima che tu possa iniziare un altro tentativo.';
+$string['youmustwait'] = 'Devi aspettare prima di poter ritentare questo quiz. Potrai tentarlo di nuovo dopo il {$a}.';
