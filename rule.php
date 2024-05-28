@@ -154,6 +154,7 @@ class quizaccess_delaybygrade extends access_rule_base {
      */
     public static function validate_settings_form_fields(array $errors, array $data, $files, mod_quiz_mod_form $quizform) {
         if (!empty($data['delaybygradeenabled'])) {
+            $data['delaybygradegrade'] = unformat_float($data['delaybygradegrade']);
             if ($data['delaybygradegrade'] > $data['grade']) {
                 $errors['delaybygrade'] = get_string('delaygradeerror', 'quizaccess_delaybygrade');
             }
@@ -176,13 +177,13 @@ class quizaccess_delaybygrade extends access_rule_base {
             $DB->delete_records('quizaccess_delaybygrade', ['quizid' => $quiz->id]);
         } else {
             if ($record = $DB->get_record('quizaccess_delaybygrade', ['quizid' => $quiz->id])) {
-                $record->grade = $quiz->delaybygradegrade;
+                $record->grade = unformat_float($quiz->delaybygradegrade);
                 $record->delay = $quiz->delaybygradedelay;
                 $DB->update_record('quizaccess_delaybygrade', $record);
             } else {
                 $record = new stdClass();
                 $record->quizid = $quiz->id;
-                $record->grade = $quiz->delaybygradegrade;
+                $record->grade = unformat_float($quiz->delaybygradegrade);
                 $record->delay = $quiz->delaybygradedelay;
                 $DB->insert_record('quizaccess_delaybygrade', $record);
             }
@@ -220,12 +221,14 @@ class quizaccess_delaybygrade extends access_rule_base {
      *        plugin name, to avoid collisions.
      */
     public static function get_settings_sql($quizid) {
-        return [
+        return ['', '', []];
+/*
             'quizaccess_delaybygrade.delay delaybygradedelay,
                     quizaccess_delaybygrade.grade delaybygradegrade',
             'LEFT JOIN {quizaccess_delaybygrade} quizaccess_delaybygrade
                     ON quizaccess_delaybygrade.quizid = quiz.id',
             []];
+*/
     }
 
     /**
@@ -238,8 +241,12 @@ class quizaccess_delaybygrade extends access_rule_base {
     public static function get_extra_settings($quizid) {
         global $DB;
 
-        if ($DB->record_exists('quizaccess_delaybygrade', ['quizid' => $quizid])) {
-            return ['delaybygradeenabled' => 1];
+        if ($delaybygrade = $DB->get_record('quizaccess_delaybygrade', ['quizid' => $quizid])) {
+            return [
+                    'delaybygradegrade' => format_float($delaybygrade->grade),
+                    'delaybygradedelay' => $delaybygrade->delay,
+                    'delaybygradeenabled' => 1,
+            ];
         }
 
         return [];
