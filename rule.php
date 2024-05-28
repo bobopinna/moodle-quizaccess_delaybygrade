@@ -222,13 +222,6 @@ class quizaccess_delaybygrade extends access_rule_base {
      */
     public static function get_settings_sql($quizid) {
         return ['', '', []];
-/*
-            'quizaccess_delaybygrade.delay delaybygradedelay,
-                    quizaccess_delaybygrade.grade delaybygradegrade',
-            'LEFT JOIN {quizaccess_delaybygrade} quizaccess_delaybygrade
-                    ON quizaccess_delaybygrade.quizid = quiz.id',
-            []];
-*/
     }
 
     /**
@@ -241,12 +234,14 @@ class quizaccess_delaybygrade extends access_rule_base {
     public static function get_extra_settings($quizid) {
         global $DB;
 
-        if ($delaybygrade = $DB->get_record('quizaccess_delaybygrade', ['quizid' => $quizid])) {
-            return [
-                    'delaybygradegrade' => format_float($delaybygrade->grade),
-                    'delaybygradedelay' => $delaybygrade->delay,
-                    'delaybygradeenabled' => 1,
-            ];
+        if ($quiz = $DB->get_record('quiz', ['id' => $quizid])) {
+            if ($delaybygrade = $DB->get_record('quizaccess_delaybygrade', ['quizid' => $quizid])) {
+                return [
+                        'delaybygradegrade' => format_float($delaybygrade->grade, $quiz->decimalpoints),
+                        'delaybygradedelay' => $delaybygrade->delay,
+                        'delaybygradeenabled' => 1,
+                ];
+            }
         }
 
         return [];
