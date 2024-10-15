@@ -93,7 +93,7 @@ class quizaccess_delaybygrade extends access_rule_base {
                     && !empty($this->quiz->delaybygradedelay)
                     && !empty($this->quiz->delaybygradegrade)) {
                 $lastgrade = $lastattempt->sumgrades * $this->quiz->grade / $this->quiz->sumgrades;
-                if ($lastgrade < $this->quiz->delaybygradegrade) {
+                if ($lastgrade < unformat_float($this->quiz->delaybygradegrade)) {
                     return $lastattemptfinish + $this->quiz->delaybygradedelay;
                 }
             }
